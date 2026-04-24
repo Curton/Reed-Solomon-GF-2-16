@@ -1,0 +1,40 @@
+.gitignore for Java/Maven project
+
+# Maven target directory
+target/
+
+# Compiled class files
+*.class
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+*.jar
+*.war
+*.ear
+target/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Environment files
+.env
+*.env
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.properties
