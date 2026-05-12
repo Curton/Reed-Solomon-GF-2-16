@@ -72,4 +72,31 @@ class PolynomialTest {
         // Evaluate at x=1: 1 +2 +3 = 1 XOR 2 XOR 3 = 0
         assertEquals(0, p.evaluate(1));
     }
+
+    @Test
+    void toString_returnsArrayRepresentation() {
+        Polynomial p = new Polynomial(1, 2, 3);
+        assertEquals("[1, 2, 3]", p.toString());
+    }
+
+    @Test
+    void getCoefficient_negativeDegree_returnsZero() {
+        Polynomial p = new Polynomial(1, 2, 3);
+        assertEquals(0, p.getCoefficient(-1));
+    }
+
+    @Test
+    void getCoefficient_exceedsDegree_returnsZero() {
+        Polynomial p = new Polynomial(1, 2, 3); // degree 2
+        assertEquals(0, p.getCoefficient(5));
+    }
+
+    @Test
+    void add_differentLengths() {
+        Polynomial a = new Polynomial(1, 2, 3); // degree 2
+        Polynomial b = new Polynomial(4);        // degree 0
+        Polynomial sum = a.add(b);
+        // 1^4=5, 2, 3
+        assertArrayEquals(new int[]{5, 2, 3}, sum.getCoefficients());
+    }
 }

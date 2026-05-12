@@ -216,4 +216,55 @@ class RsCodecTest {
             assertArrayEquals(data, decoded, "Failed with " + t + " errors");
         }
     }
+
+    @Test
+    void decode_nullCodeword_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> rs.decode(null));
+    }
+
+    @Test
+    void decode_wrongLength_throwsIllegalArgumentException() {
+        byte[] wrong = new byte[100];
+        assertThrows(IllegalArgumentException.class, () -> rs.decode(wrong));
+    }
+
+    @Test
+    void decode_wrongLength_tooLong() {
+        byte[] wrong = new byte[300];
+        assertThrows(IllegalArgumentException.class, () -> rs.decode(wrong));
+    }
+
+    @Test
+    void decode_tooManyErrors_throwsDecodingException() {
+        byte[] data = new byte[240];
+        new Random(42).nextBytes(data);
+        byte[] codeword = rs.encode(data);
+        // Corrupt 10 symbols (20 bytes) — well beyond correction capacity
+        for (int i = 0; i < 10; i++) {
+            int pos = i * 20;
+            codeword[pos] ^= (byte) 0xFF;
+            codeword[pos + 1] ^= (byte) 0xFF;
+        }
+        DecodingException ex = assertThrows(DecodingException.class, () -> rs.decode(codeword));
+        assertTrue(ex.getMessage().contains("Too many errors") || ex.getMessage().contains("syndromes still non-zero")
+                        || ex.getMessage().contains("Chien search"),
+                "Expected error about too many errors, got: " + ex.getMessage());
+    }
+
+    @Test
+    void main_runsSelfTest() {
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        java.io.PrintStream originalOut = System.out;
+        System.setOut(new java.io.PrintStream(out));
+        try {
+            RsCodec.main(new String[]{});
+            String output = out.toString();
+            assertTrue(output.contains("No errors: PASS"));
+            assertTrue(output.contains("1 error: PASS"));
+            assertTrue(output.contains("4 errors: PASS"));
+            assertTrue(output.contains("All core tests done"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
 }

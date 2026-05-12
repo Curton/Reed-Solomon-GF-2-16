@@ -78,4 +78,35 @@ class GF216Test {
         // Evaluate at x=1: 3 + 5*1 = 3 XOR 5 = 6
         assertEquals(6, GF216.evaluatePolynomial(poly, 1));
     }
+
+    @Test
+    void subtract_sameAsAdd() {
+        assertEquals(GF216.add(0xAAAA, 0x5555), GF216.subtract(0xAAAA, 0x5555));
+        assertEquals(0, GF216.subtract(123, 123));
+    }
+
+    @Test
+    void getAlpha_returns2() {
+        assertEquals(2, GF216.getAlpha());
+    }
+
+    @Test
+    void divide_byZero_throwsArithmeticException() {
+        assertThrows(ArithmeticException.class, () -> GF216.divide(1, 0));
+    }
+
+    @Test
+    void inverse_ofZero_throwsArithmeticException() {
+        assertThrows(ArithmeticException.class, () -> GF216.inverse(0));
+    }
+
+    @Test
+    void log_ofZero_throwsArithmeticException() {
+        assertThrows(ArithmeticException.class, () -> GF216.log(0));
+    }
+
+    @Test
+    void divide_zeroDividedByNonZero() {
+        assertEquals(0, GF216.divide(0, 5));
+    }
 }
