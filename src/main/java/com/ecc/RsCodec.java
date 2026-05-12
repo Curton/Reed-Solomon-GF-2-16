@@ -118,6 +118,15 @@ public class RsCodec {
             throw new DecodingException("Decoding failed: syndromes still non-zero after correction (too many errors?)");
         }
 
+        // Re-encode verification: independent sanity check using the encoder
+        byte[] correctedBytes = symbolsToBytes(received, 0, TOTAL_SYM);
+        byte[] reencoded = this.encode(extractData(correctedBytes));
+        for (int i = 0; i < WIRE_BYTES; i++) {
+            if (correctedBytes[i] != reencoded[i]) {
+                throw new DecodingException("Re-encode verification failed: corrected word is not a valid codeword (likely too many errors)");
+            }
+        }
+
         // Extract data (last 120 symbols, positions 8-127)
         int[] dataSym = new int[DATA_SYM];
         System.arraycopy(received, PARITY_SYM, dataSym, 0, DATA_SYM);
