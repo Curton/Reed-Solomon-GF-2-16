@@ -99,4 +99,20 @@ class PolynomialTest {
         // 1^4=5, 2, 3
         assertArrayEquals(new int[]{5, 2, 3}, sum.getCoefficients());
     }
+
+    @Test
+    void add_thisShorterThanOther() {
+        Polynomial a = new Polynomial(4);        // degree 0
+        Polynomial b = new Polynomial(1, 2, 3); // degree 2
+        Polynomial sum = a.add(b);
+        // 4^1=5, 2, 3
+        assertArrayEquals(new int[]{5, 2, 3}, sum.getCoefficients());
+    }
+
+    @Test
+    void divideAndRemainder_divisionByZero_throwsArithmeticException() {
+        Polynomial dividend = new Polynomial(1, 2, 3);
+        Polynomial zero = new Polynomial(0);
+        assertThrows(ArithmeticException.class, () -> dividend.divideAndRemainder(zero));
+    }
 }
