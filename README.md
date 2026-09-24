@@ -23,24 +23,6 @@ java -cp target/classes com.ecc.RsCodec
 
 Test results and coverage reports in `target/surefire-reports/` and `target/site/jacoco/`.
 
-## Project Structure
-```
-src/
-├── main/java/com/ecc/
-│   ├── GF216.java                # GF(2^16) arithmetic (log/exp tables)
-│   ├── Polynomial.java            # Polynomial ops over GF(2^16)
-│   ├── RsCodec.java              # RS(128,120) encoder/decoder
-│   ├── ReedSolomonException.java  # Base exception
-│   └── DecodingException.java    # Decoding failure exception
-└── test/java/com/ecc/
-    ├── GF216Test.java
-    ├── PolynomialTest.java
-    ├── RsCodecTest.java
-    ├── RSIntegrationTest.java
-    ├── BitErrorCorrectionTest.java
-    └── ExceptionTest.java
-```
-
 ## Algorithm Details
 
 ### Encoding (Systematic)
