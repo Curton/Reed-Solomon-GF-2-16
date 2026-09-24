@@ -4,9 +4,9 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ecc</groupId>
+    <groupId>io.github.curton</groupId>
     <artifactId>reed-solomon-ecc</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>

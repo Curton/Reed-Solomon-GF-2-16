@@ -1,4 +1,4 @@
-package com.ecc;
+package io.github.curton;
 
 import org.junit.jupiter.api.Test;
 

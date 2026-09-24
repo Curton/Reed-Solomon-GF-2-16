@@ -18,7 +18,7 @@
 mvn clean test
 
 # Run the self-test harness
-java -cp target/classes com.ecc.RsCodec
+java -cp target/classes io.github.curton.RsCodec
 ```
 
 Test results and coverage reports in `target/surefire-reports/` and `target/site/jacoco/`.

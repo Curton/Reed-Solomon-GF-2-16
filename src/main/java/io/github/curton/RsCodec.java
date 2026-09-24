@@ -1,4 +1,4 @@
-package com.ecc;
+package io.github.curton;
 
 import java.util.ArrayList;
 import java.util.List;

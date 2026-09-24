@@ -1,4 +1,4 @@
-package com.ecc;
+package io.github.curton;
 
 /**
  * Galois Field GF(2^16) arithmetic using primitive polynomial

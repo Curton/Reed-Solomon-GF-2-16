@@ -1,4 +1,4 @@
-package com.ecc;
+package io.github.curton;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
