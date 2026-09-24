@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
@@ -22,3 +24,40 @@ jobs:
 
     - name: Build and test
       run: mvn clean test --batch-mode --no-transfer-progress
+
+    - name: Generate JaCoCo coverage badges
+      id: jacoco
+      uses: cicirello/jacoco-badge-generator@v2.12.0
+      with:
+        generate-branches-badge: true
+        coverage-label: coverage
+
+    - name: Write test & coverage summary
+      run: |
+        TESTS=$(grep -ho 'tests="[0-9]*"' target/surefire-reports/TEST-*.xml | grep -o '[0-9]*' | awk '{s+=$1} END{print s+0}')
+        FAILS=$(grep -ho 'failures="[0-9]*"' target/surefire-reports/TEST-*.xml | grep -o '[0-9]*' | awk '{s+=$1} END{print s+0}')
+        ERRS=$(grep -ho 'errors="[0-9]*"' target/surefire-reports/TEST-*.xml | grep -o '[0-9]*' | awk '{s+=$1} END{print s+0}')
+        COV=$(awk -v c="${{ steps.jacoco.outputs.coverage }}" 'BEGIN{printf "%.1f", c*100}')
+        BR=$(awk -v c="${{ steps.jacoco.outputs.branches }}" 'BEGIN{printf "%.1f", c*100}')
+        {
+          echo "## Test & Coverage Summary"
+          echo ""
+          echo "- Tests: ${TESTS} (${FAILS} failures, ${ERRS} errors)"
+          echo "- Instruction coverage: ${COV}%"
+          echo "- Branch coverage: ${BR}%"
+          echo ""
+          echo "Badges are auto-committed to \`.github/badges/\` and rendered in the README."
+        } >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Commit and push coverage badges
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      run: |
+        if [[ -n "$(git status --porcelain .github/badges)" ]]; then
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/badges
+          git commit -m 'Update JaCoCo coverage badges [skip ci]'
+          git push
+        else
+          echo 'Badges unchanged, nothing to commit'
+        fi

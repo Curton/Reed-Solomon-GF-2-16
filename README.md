@@ -1,6 +1,8 @@
 # Reed-Solomon ECC Java Project
 
 [![Build](https://img.shields.io/github/actions/workflow/status/Curton/Reed-Solomon-GF-2-16/build.yml?branch=master&logo=github)](https://github.com/Curton/Reed-Solomon-GF-2-16/actions/workflows/build.yml)
+[![Coverage](.github/badges/jacoco.svg)](https://github.com/Curton/Reed-Solomon-GF-2-16/actions/workflows/build.yml "Instruction coverage — auto-updated by CI")
+[![Branches](.github/badges/branches.svg)](https://github.com/Curton/Reed-Solomon-GF-2-16/actions/workflows/build.yml "Branch coverage — auto-updated by CI")
 
 > A Java implementation of Reed-Solomon error-correcting codes (RS(128,120) over GF(2^16)), capable of encoding 240 bytes of data into 256-byte codewords and correcting up to 4 symbol errors.
 
@@ -35,6 +37,7 @@ src/
     ├── PolynomialTest.java
     ├── RsCodecTest.java
     ├── RSIntegrationTest.java
+    ├── BitErrorCorrectionTest.java
     └── ExceptionTest.java
 ```
 
