@@ -273,7 +273,8 @@ public class RsCodec {
         return bytes;
     }
 
-    // Quick self-test
+    // Quick self-test (demo entry point, excluded from coverage via @Generated)
+    @Generated
     public static void main(String[] args) {
         RsCodec rs = new RsCodec();
         Random rand = new Random(42);
